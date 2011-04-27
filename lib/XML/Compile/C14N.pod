@@ -1,0 +1,118 @@
+=head1 NAME
+
+XML::Compile::C14N - XML Canonicalization
+
+=head1 SYNOPSIS
+
+ my $schema = XML::Compile::Cache->new(...);
+ my $c14n   = XML::Compile::C14N->new(schema => $schema);
+
+=head1 DESCRIPTION
+
+XML canonicalization is used to enforce an explicit formatting style
+on de XML documents. It is required to have a reproducable output when,
+for instance, digital signatures gets applied to parts of the document.
+
+WARNING: Although you may wish for more, this module currently only
+helps to decode the C14N information, for instance used in digital
+signatures. The actual process of canonicalization is not (yet)
+implemented.
+
+=head1 METHODS
+
+=head2 Constructors
+
+=over 4
+
+=item XML::Compile::C14N-E<gt>B<new>(OPTIONS)
+
+ -Option --Default
+  schema   undef
+  version  '1.1'
+
+=over 2
+
+=item schema => L<XML::Compile::Cache|XML::Compile::Cache>
+
+Add the C14N extension information to the provided schema.  If not used,
+you have to call L<loadSchemas()|XML::Compile::C14N/"Handling"> before compiling readers and writers.
+
+=item version => STRING
+
+Explicitly state which version C14N needs to be used.
+
+=back
+
+=back
+
+=head2 Attributes
+
+=over 4
+
+=item $obj-E<gt>B<schema>
+
+=item $obj-E<gt>B<version>
+
+Returns the version number.
+
+=back
+
+=head2 Handling
+
+=over 4
+
+=item $obj-E<gt>B<loadSchemas>(SCHEMA)
+
+SCHEMA must extend L<XML::Compile::Cache|XML::Compile::Cache>.
+
+=back
+
+=head2 SEE ALSO
+
+=over 4
+
+=item Canonical XML Version 1.0
+
+F<http://www.w3.org/TR/2001/REC-xml-c14n-20010315>, 15 March 2001
+
+=item Canonical XML Version 1.1
+
+F<http://www.w3.org/TR/2008/REC-xml-c14n11-20080502/>, 2 May 2008
+
+=back
+
+=head1 SEE ALSO
+
+This module is part of XML-Compile-C14N distribution version 0.10,
+built on April 26, 2011. Website: F<http://perl.overmeer.net/xml-compile/>
+
+Other distributions in this suite:
+L<XML::Compile>,
+L<XML::Compile::SOAP>,
+L<XML::Compile::SOAP12>,
+L<XML::Compile::SOAP::Daemon>,
+L<XML::Compile::SOAP::WSA>,
+L<XML::Compile::C14N>,
+L<XML::Compile::WSS>,
+L<XML::Compile::Tester>,
+L<XML::Compile::Cache>,
+L<XML::Compile::Dumper>,
+L<XML::Compile::RPC>,
+L<XML::Rewrite>,
+L<XML::eXistDB>,
+and
+L<XML::LibXML::Simple>.
+
+Please post questions or ideas to the mailinglist at
+F<http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/xml-compile>
+For live contact with other developers, visit the C<#xml-compile> channel
+on C<irc.perl.org>.
+
+=head1 LICENSE
+
+Copyrights 2011 by Mark Overmeer. For other contributors see ChangeLog.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+See F<http://www.perl.com/perl/misc/Artistic.html>
+
