@@ -13,10 +13,9 @@ XML canonicalization is used to enforce an explicit formatting style
 on de XML documents. It is required to have a reproducable output when,
 for instance, digital signatures gets applied to parts of the document.
 
-WARNING: Although you may wish for more, this module currently only
-helps to decode the C14N information, for instance used in digital
-signatures. The actual process of canonicalization is not (yet)
-implemented.
+C14N currently has seen three versions: 1.0, 1.1, and 2.0.  Versions 1.*
+need [C14N-EXC] version 1.0.  There is no support for version 2.0 in
+L<XML::LibXML> yet, so also not provided by this module.
 
 =head1 METHODS
 
@@ -32,14 +31,15 @@ implemented.
 
 =over 2
 
-=item schema => L<XML::Compile::Cache|XML::Compile::Cache>
+=item schema => L<XML::Compile::Cache|XML::Compile::Cache> object
 
 Add the C14N extension information to the provided schema.  If not used,
-you have to call L<loadSchemas()|XML::Compile::C14N/"Handling"> before compiling readers and writers.
+you have to call L<loadSchemas()|XML::Compile::C14N/"Internals"> before compiling readers and writers.
 
 =item version => STRING
 
-Explicitly state which version C14N needs to be used.
+Explicitly state which version C14N needs to be used.  C14N2 is not
+yet supported.
 
 =back
 
@@ -49,9 +49,9 @@ Explicitly state which version C14N needs to be used.
 
 =over 4
 
-=item $obj-E<gt>B<schema>
+=item $obj-E<gt>B<schema>()
 
-=item $obj-E<gt>B<version>
+=item $obj-E<gt>B<version>()
 
 Returns the version number.
 
@@ -61,30 +61,77 @@ Returns the version number.
 
 =over 4
 
-=item $obj-E<gt>B<loadSchemas>(SCHEMA)
+=item $obj-E<gt>B<normalize>(TYPE, NODE, OPTIONS)
 
-SCHEMA must extend L<XML::Compile::Cache|XML::Compile::Cache>.
+The TYPE is one of the C14* constants defined in
+L<XML::Compile::C14N::Util|XML::Compile::C14N::Util>.  The NODE is an XML::LibXML::Element.
+Returned is a normalized byte-sequence, for instance to be signed.
+
+ -Option     --Default
+  context      <created from NODE if needed>
+  prefix_list  []
+  xpath        undef
+
+=over 2
+
+=item context => XML::LibXML::XPathContext object
+
+=item prefix_list => ARRAY
+
+Then prefixes which are to be included in normalization, only used in
+excludeNamespaces (EXC) normalizations.
+
+=item xpath => EXPRESSION
+
+Only normalize a subset of the document.
 
 =back
 
-=head2 SEE ALSO
+=back
+
+=head2 Internals
 
 =over 4
 
-=item Canonical XML Version 1.0
+=item $obj-E<gt>B<loadSchemas>(SCHEMA)
 
-F<http://www.w3.org/TR/2001/REC-xml-c14n-20010315>, 15 March 2001
+Load the C14N schema to the global SCHEMA, which must extend
+L<XML::Compile::Cache|XML::Compile::Cache>.
 
-=item Canonical XML Version 1.1
+This method will be called when you provide a value for L<new(schema)|XML::Compile::C14N/"Constructors">.
+Otherwise, you need to call this when the global SCHEMA is known in your
+program.
 
-F<http://www.w3.org/TR/2008/REC-xml-c14n11-20080502/>, 2 May 2008
+=back
+
+=head1 DETAILS
+
+=head2 References
+
+=over 4
+
+=item [C14N-10] Canonical XML Version 1.0
+
+F<http://www.w3.org/TR/xml-c14n>, 15 March 2001
+
+=item [C14N-EXC] Exclusive XML Canonicalization Version 1.0
+
+F<http://www.w3.org/TR/xml-exc-c14n/>, 18 July 2002
+
+=item [C14N-11] Canonical XML Version 1.1
+
+F<http://www.w3.org/TR/xml-c14n11/>, 2 May 2008
+
+=item [C14N-20] Canonical XML Version 2.0
+
+F<http://www.w3.org/TR/xml-c14n2/>, 24 January 2012
 
 =back
 
 =head1 SEE ALSO
 
-This module is part of XML-Compile-C14N distribution version 0.10,
-built on April 26, 2011. Website: F<http://perl.overmeer.net/xml-compile/>
+This module is part of XML-Compile-C14N distribution version 0.90,
+built on November 05, 2012. Website: F<http://perl.overmeer.net/xml-compile/>
 
 Other distributions in this suite:
 L<XML::Compile>,
@@ -94,6 +141,7 @@ L<XML::Compile::SOAP::Daemon>,
 L<XML::Compile::SOAP::WSA>,
 L<XML::Compile::C14N>,
 L<XML::Compile::WSS>,
+L<XML::Compile::WSS::Signature>,
 L<XML::Compile::Tester>,
 L<XML::Compile::Cache>,
 L<XML::Compile::Dumper>,
@@ -105,12 +153,13 @@ L<XML::LibXML::Simple>.
 
 Please post questions or ideas to the mailinglist at
 F<http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/xml-compile>
+
 For live contact with other developers, visit the C<#xml-compile> channel
 on C<irc.perl.org>.
 
 =head1 LICENSE
 
-Copyrights 2011 by Mark Overmeer. For other contributors see ChangeLog.
+Copyrights 2011-2012 by [Mark Overmeer]. For other contributors see ChangeLog.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

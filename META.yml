@@ -1,27 +1,25 @@
---- #YAML:1.0
-name:               XML-Compile-C14N
-version:            0.10
-abstract:           SOAP Web Service Addressing
+---
+abstract: 'SOAP Web Service Addressing'
 author:
-    - Mark Overmeer
-license:            perl
-distribution_type:  module
-configure_requires:
-    ExtUtils::MakeMaker:  0
+  - 'Mark Overmeer'
 build_requires:
-    ExtUtils::MakeMaker:  0
-requires:
-    File::Basename:       0
-    File::Spec:           0
-    Log::Report:          0.92
-    Test::More:           0.54
-    XML::Compile:         1.21
-    XML::Compile::Cache:  0.98
-no_index:
-    directory:
-        - t
-        - inc
-generated_by:       ExtUtils::MakeMaker version 6.56
+  ExtUtils::MakeMaker: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 6.6302, CPAN::Meta::Converter version 2.120921'
+license: perl
 meta-spec:
-    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
-    version:  1.4
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: XML-Compile-C14N
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Log::Report: 0.92
+  Test::More: 0.54
+  XML::Compile: 1.21
+  XML::Compile::Cache: 0.98
+version: 0.90
