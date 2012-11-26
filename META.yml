@@ -18,8 +18,9 @@ no_index:
     - t
     - inc
 requires:
-  Log::Report: 0.92
-  Test::More: 0.54
-  XML::Compile: 1.21
+  Log::Report: 0.991
+  Test::More: 0.98
+  XML::Compile: 1.30
   XML::Compile::Cache: 0.98
-version: 0.90
+  XML::LibXML: 1.94
+version: 0.91
