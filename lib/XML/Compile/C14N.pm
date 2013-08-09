@@ -1,26 +1,29 @@
-# Copyrights 2011-2012 by [Mark Overmeer].
+# Copyrights 2011-2013 by [Mark Overmeer].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 2.00.
+# Pod stripped from pm file by OODoc 2.01.
 use warnings;
 use strict;
 
 package XML::Compile::C14N;
 use vars '$VERSION';
-$VERSION = '0.91';
+$VERSION = '0.92';
 
 
 use Log::Report 'xml-compile-c14n';
 
-use XML::Compile::C14N::Util ':c14n';
-use XML::LibXML;
+use XML::Compile::C14N::Util qw/:c14n :paths/;
+use XML::LibXML  ();
+use Scalar::Util qw/weaken/;
 
 my %versions =
  ( '1.0' => {}
  , '1.1' => {}
  );
 
-my @prefixes = (c14n => C14N_EXC_NS);
+my %prefixes =
+  ( c14n => C14N_EXC_NS
+  );
 
 my %features =       #comment  excl
   ( &C14N_v10_NO_COMM  => [ 0, 0 ]
@@ -36,7 +39,14 @@ sub new(@) { my $class = shift; (bless {}, $class)->init( {@_} ) }
 sub init($)
 {   my ($self, $args) = @_;
 
-    my $version = $args->{version} || '1.1';
+    my $version = $args->{version};
+    if(my $c = $args->{for})
+    {   $version ||= index($c, C14N10 )==0 ? '1.0'
+                   : index($c, C14N11 )==0 ? '1.1'
+                   : index($c, C14NEXC)==0 ? '1.1'
+                   : undef;
+    }
+    $version ||= '1.1';
     trace "initializing v14n $version";
 
     $versions{$version}
@@ -91,14 +101,14 @@ sub loadSchemas($)
     $schema->isa('XML::Compile::Cache')
         or error __x"loadSchemas() requires a XML::Compile::Cache object";
     $self->{XCC_schema} = $schema;
+    weaken $self->{XCC_schema};
 
     my $version = $self->version;
     my $def     = $versions{$version};
 
-    $schema->prefixes(@prefixes);
-    {   local $" = ',';
-        $schema->addKeyRewrite("PREFIXED(@prefixes)");
-    }
+    $schema->addPrefixes(\%prefixes);
+    my $rewrite = join ',', keys %prefixes;
+    $schema->addKeyRewrite("PREFIXED($rewrite)");
 
     (my $xsd = __FILE__) =~ s! \.pm$ !/exc-c14n.xsd!x;
     trace "loading c14n for $version";
