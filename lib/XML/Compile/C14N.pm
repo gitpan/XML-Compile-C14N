@@ -7,7 +7,7 @@ use strict;
 
 package XML::Compile::C14N;
 use vars '$VERSION';
-$VERSION = '0.92';
+$VERSION = '0.93';
 
 
 use Log::Report 'xml-compile-c14n';
@@ -81,13 +81,12 @@ sub normalize($$%)
     my $xpath     = $args{xpath};
     my $context   = $args{context} || XML::LibXML::XPathContext->new($node);
 
-#warn "$serialize($with_comments, [@$prefixes])\n";
     my $canon     =
       eval { $node->$serialize($with_comments, $xpath, $context, $prefixes) };
 #warn "--> $canon#\n";
 
     if(my $err = $@)
-    {   $err =~ s/ at .*//;
+    { #  $err =~ s/ at .*//s;
         panic $err;
     }
     $canon;

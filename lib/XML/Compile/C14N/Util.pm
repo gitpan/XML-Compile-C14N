@@ -7,7 +7,7 @@ use strict;
 
 package XML::Compile::C14N::Util;
 use vars '$VERSION';
-$VERSION = '0.92';
+$VERSION = '0.93';
 
 use base 'Exporter';
 
@@ -25,11 +25,16 @@ my @paths = qw/
   C14N10
   C14N11
   C14NEXC  
+  is_canon_constant
  /;
 
 our @EXPORT      = qw/C14N_EXC_NS/;
 our @EXPORT_OK   = (@c14n, @paths);
-our %EXPORT_TAGS = (c14n => \@c14n, paths => \@paths);
+
+our %EXPORT_TAGS =
+  ( c14n  => \@c14n
+  , paths => \@paths
+  );
 
 
 # Path components
@@ -49,5 +54,9 @@ use constant
   , C14N_EXC_COMMENTS => C14NEXC.'#WithComments'
   , C14N_EXC_NS       => C14NEXC.'#'
   };
+
+
+my $is_canon =  qr/^(?:\Q${\C14N10}\E|\Q${\C14N11}\E|\Q${\C14NEXC}\E)\b/;
+sub is_canon_constant($) { $_[0] =~ $is_canon }
 
 1;

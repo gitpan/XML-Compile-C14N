@@ -22,14 +22,29 @@ to XML Canonicalization.
 
 Export tag C<:c14n> provides
 
+  C14N_v10_NO_COMM   C14N_v11_NO_COMM   C14N_EXC_NO_COMM
+  C14N_v10_COMMENTS  C14N_v11_COMMENTS  C14N_EXC_COMMENTS
+                                        C14N_EXC_NS
+
+=head2 Functions
+
+=over 4
+
+=item B<is_canon_constant>(CONSTANT)
+
+[0.93] Returns C<true> if the CONSTANT is one of the constants defined by
+the C<:c14n> export tag.
+
+=back
+
 =head1 SYNOPSYS
 
  use XML::Compile::C14N::Util ':c14n';
 
 =head1 SEE ALSO
 
-This module is part of XML-Compile-C14N distribution version 0.92,
-built on August 10, 2013. Website: F<http://perl.overmeer.net/xml-compile/>
+This module is part of XML-Compile-C14N distribution version 0.93,
+built on October 02, 2013. Website: F<http://perl.overmeer.net/xml-compile/>
 
 Other distributions in this suite:
 L<XML::Compile>,
