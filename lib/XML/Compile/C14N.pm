@@ -1,4 +1,4 @@
-# Copyrights 2011-2013 by [Mark Overmeer].
+# Copyrights 2011-2014 by [Mark Overmeer].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
 # Pod stripped from pm file by OODoc 2.01.
@@ -6,8 +6,7 @@ use warnings;
 use strict;
 
 package XML::Compile::C14N;
-use vars '$VERSION';
-$VERSION = '0.93';
+our $VERSION = '0.94';
 
 
 use Log::Report 'xml-compile-c14n';
@@ -15,6 +14,7 @@ use Log::Report 'xml-compile-c14n';
 use XML::Compile::C14N::Util qw/:c14n :paths/;
 use XML::LibXML  ();
 use Scalar::Util qw/weaken/;
+use Encode       qw/_utf8_off/;
 
 my %versions =
  ( '1.0' => {}
@@ -84,6 +84,7 @@ sub normalize($$%)
     my $canon     =
       eval { $node->$serialize($with_comments, $xpath, $context, $prefixes) };
 #warn "--> $canon#\n";
+    _utf8_off $canon;
 
     if(my $err = $@)
     { #  $err =~ s/ at .*//s;

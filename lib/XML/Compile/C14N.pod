@@ -25,7 +25,7 @@ L<XML::LibXML> yet, so also not provided by this module.
 
 =over 4
 
-=item XML::Compile::C14N-E<gt>B<new>(OPTIONS)
+=item XML::Compile::C14N-E<gt>B<new>(%options)
 
 There can be more than one C14N object active in your program.
 
@@ -72,11 +72,10 @@ Returns the version number.
 
 =over 4
 
-=item $obj-E<gt>B<normalize>(TYPE, NODE, OPTIONS)
+=item $obj-E<gt>B<normalize>($type, $node, %options)
 
-The TYPE is one of the C14* constants defined in
-L<XML::Compile::C14N::Util|XML::Compile::C14N::Util>.  The NODE is an XML::LibXML::Element.
-Returned is a normalized byte-sequence, for instance to be signed.
+The $type is one of the C14* constants defined in L<XML::Compile::C14N::Util|XML::Compile::C14N::Util>.  The $node is an XML::LibXML::Element.  Returned is a normalized
+byte-sequence, for instance to be signed.
 
  -Option     --Default
   context      <created from NODE if needed>
@@ -104,13 +103,13 @@ Only normalize a subset of the document.
 
 =over 4
 
-=item $obj-E<gt>B<loadSchemas>(SCHEMA)
+=item $obj-E<gt>B<loadSchemas>($schema)
 
-Load the C14N schema to the global SCHEMA, which must extend
+Load the C14N schema to the global $schema, which must extend
 L<XML::Compile::Cache|XML::Compile::Cache>.
 
 This method will be called when you provide a value for L<new(schema)|XML::Compile::C14N/"Constructors">.
-Otherwise, you need to call this when the global SCHEMA is known in your
+Otherwise, you need to call this when the global $schema is known in your
 program.
 
 =back
@@ -141,12 +140,13 @@ F<http://www.w3.org/TR/xml-c14n2/>, 24 January 2012
 
 =head1 SEE ALSO
 
-This module is part of XML-Compile-C14N distribution version 0.93,
-built on October 02, 2013. Website: F<http://perl.overmeer.net/xml-compile/>
+This module is part of XML-Compile-C14N distribution version 0.94,
+built on February 18, 2014. Website: F<http://perl.overmeer.net/xml-compile/>
 
 Other distributions in this suite:
 L<XML::Compile>,
 L<XML::Compile::SOAP>,
+L<XML::Compile::WSDL11>,
 L<XML::Compile::SOAP12>,
 L<XML::Compile::SOAP::Daemon>,
 L<XML::Compile::SOAP::WSA>,
@@ -168,7 +168,7 @@ on C<irc.perl.org>.
 
 =head1 LICENSE
 
-Copyrights 2011-2013 by [Mark Overmeer]. For other contributors see ChangeLog.
+Copyrights 2011-2014 by [Mark Overmeer]. For other contributors see ChangeLog.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

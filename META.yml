@@ -24,4 +24,4 @@ requires:
   XML::Compile: 1.30
   XML::Compile::Cache: 0.995
   XML::LibXML: 1.94
-version: 0.93
+version: 0.94
